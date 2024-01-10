@@ -2,9 +2,13 @@ const express = require('express');
 const app = express();
 const {connectMongoose,User} = require("./database.js")
 const ejs = require('ejs');
-
+const passport = require('passport');
+const {initializingPassport} = require("./passportConfig.js");
 
 connectMongoose();
+
+initializingPassport(passport);
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -31,7 +35,10 @@ app.post("/register",async (req,res)=>{
     const newUser = await User.create(req.body);
 
     res.status(201).send(newUser);
-})
+});
+// app.post("/login",async (req,res)=>{
+
+// });
 
 
 app.listen(3000, ()=>{
